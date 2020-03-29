@@ -47,6 +47,13 @@
 #define RET_NOT_MOVED 2
 #define RET_GAME_OVER 3
 
+#define CC_CHAR_WALL    CHAR_SPACE
+#define CC_COLOR_WALL   COLOR_FG_WHITE
+
+// TODO: make this own color each shape
+#define CC_CHAR_LANDED  CHAR_SPACE
+#define CC_COLOR_LANDED COLOR_FG_RED
+
 /*------------------------------------------------------------------------------*/
 typedef struct pos{
   int x;

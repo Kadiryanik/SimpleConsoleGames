@@ -77,7 +77,7 @@ void printInfo(){
   system("clear");
   cout << "*******************************" << endl;
   cout << "*******************************" << endl;
-  cout << "**     Tetris Game v0.1      **" << endl;
+  cout << "**     Tetris Game v0.2      **" << endl;
   cout << "*******************************" << endl;
   cout << "**      " << CHAR_LEFT << " " << CHAR_DOWN << " " << CHAR_RIGHT << "   Movement     **" << endl;
   cout << "**        " << CHAR_ROTATE << "      Rotate      **" << endl;

@@ -1,10 +1,12 @@
 #include "Tetris.h"
+#include "CharColor.h"
 
 /*------------------------------------------------------------------------------*/
 using namespace std;
 
 /*------------------------------------------------------------------------------*/
 static int score = 0;
+static charColor_t currentCharColor;
 
 /*------------------------------------------------------------------------------*/
 #define CURSOR_DEFAULT_POS_X (AREA_WALL_LEN - 1)
@@ -41,11 +43,31 @@ Tetris::~Tetris(){
 }
 
 /*------------------------------------------------------------------------------*/
+static void printColorfull(charColor_t cc){
+  cout << "\033[;" << cc.color << "m" << cc.c << "\033[0m";
+}
+
+/*------------------------------------------------------------------------------*/
 void Tetris::draw(){
   system("clear");
   for(int i = 0; i < AREA_ROW_LEN; i++){
     for(int j = 0; j < AREA_COLUMN_LEN; j++){
-      cout << gameArea[i][j];
+      char c = gameArea[i][j];
+      charColor_t cc;
+
+      if(c == CHAR_LANDING){
+        printColorfull(currentCharColor);
+      } else if(c == CHAR_LANDED){
+        cc.c = CC_CHAR_LANDED;
+        cc.color = CC_COLOR_LANDED;
+        printColorfull(cc);
+      } else if(c == CHAR_WALL){
+        cc.c = CC_CHAR_WALL;
+        cc.color = CC_COLOR_WALL;
+        printColorfull(cc);
+      } else{
+        cout << c;
+      }
     }
     cout << endl;
   }
@@ -56,6 +78,8 @@ void Tetris::draw(){
 /*------------------------------------------------------------------------------*/
 int Tetris::move(Shape *shape, char direction){
   int ret;
+
+  currentCharColor = shape->charColor;
   if(check(shape, direction)){
     if(direction == CHAR_LEFT || direction == CHAR_DOWN || direction == CHAR_RIGHT){
       moveDirection(shape, direction);
@@ -66,7 +90,7 @@ int Tetris::move(Shape *shape, char direction){
     } else{
       ret = RET_NOT_MOVED;
     }
-  } else if(direction == CHAR_DOWN){ // trying to moving down and could't
+  } else if(direction == CHAR_DOWN){ // trying to move down and could't
     // check the top of shape for game over
     if(cursor.x == CURSOR_DEFAULT_POS_X){
       gameOver(shape);
